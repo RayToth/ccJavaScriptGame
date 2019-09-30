@@ -39,7 +39,6 @@ function spawn(wave){
 
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
-    firstId.style.backgroundImage()
     firstId.addEventListener("click", mobs);
     spawn(2);
 }
