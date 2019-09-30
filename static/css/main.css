@@ -1,5 +1,7 @@
 #main-board {
     width: 600px;
     height: 400px;
+    background-image: url("../images/BFjwi.png");
+    background-size: cover;
 }
 
