@@ -15,6 +15,9 @@
 
 .map td {
     border: 5px black solid;
-    background-color: ;
+}
+
+.tower-spot {
+    background-color: red;
 }
 
