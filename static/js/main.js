@@ -6,9 +6,9 @@ let enemy;
 
 
 async function mobs() {
-    for (let i = 1; i<6; i++) {
+    for (let i = 0; i<enemy.quantity; i++) {
         steps();
-        await sleep(1000);
+        await sleep(enemy.spawnTime);
     }
 }
 
@@ -31,7 +31,7 @@ function spawn(wave){
             enemy = new Enemy(wave, 1000, 5);
             break;
         case 2:
-            enemy = new Enemy(wave, 1000, 5);
+            enemy = new Enemy(wave, 1000, 10);
             break;
     }
 }
@@ -39,7 +39,7 @@ function spawn(wave){
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
     firstId.addEventListener("click", mobs);
-    spawn(1);
+    spawn(2);
 }
 
 main();
