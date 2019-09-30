@@ -3,6 +3,7 @@
     height: 800px;
     background-image: url("../images/BFjwi.png");
     background-size: cover;
+    margin: auto;
 }
 
 .map {
@@ -14,5 +15,6 @@
 
 .map td {
     border: 5px black solid;
+    background-color: ;
 }
 
