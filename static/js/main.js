@@ -1,10 +1,17 @@
 let firstId = document.getElementById("1");
-firstId.addEventListener("click", steps);
+firstId.addEventListener("click", mobs);
 
+
+async function mobs() {
+    for (let i = 1; i<6; i++) {
+        steps();
+        await sleep(1000);
+    }
+}
 async function steps() {
     for (let i = 1; i < 25; ++i) {
         document.getElementById(i.toString()).style.backgroundColor = "black";
-        await sleep(200);
+        await sleep(500);
         document.getElementById(i.toString()).style.backgroundColor = "";
     }
 }
