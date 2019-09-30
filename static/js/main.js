@@ -37,9 +37,20 @@ function spawn(wave){
     }
 }
 
+function makeTowerSpots() {
+    let towerSpots = [
+        [2, 6], [3, 3], [4, 3], [3, 4], [4, 4]
+        ];
+    for (let list of towerSpots) {
+        let spot =document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
+        spot.innerHTML = "<div class='tower-spot'></div>";
+    }
+}
+
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
     firstId.addEventListener("click", mobs);
+    makeTowerSpots();
     spawn(2);
 }
 
