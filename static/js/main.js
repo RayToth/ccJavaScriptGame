@@ -26,6 +26,7 @@ function sleep(ms) {
 }
 
 function spawn(wave){
+
     switch (wave) {
         case 1:
             enemy = new Enemy(wave, 1000, 5);
@@ -38,6 +39,7 @@ function spawn(wave){
 
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
+    firstId.style.backgroundImage()
     firstId.addEventListener("click", mobs);
     spawn(1);
 }
