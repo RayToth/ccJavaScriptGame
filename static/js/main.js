@@ -1,3 +1,6 @@
+let enemy;
+spawn(1);
+
 let firstId = document.getElementById("1");
 firstId.addEventListener("click", mobs);
 
@@ -18,4 +21,15 @@ async function steps() {
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function spawn(wave){
+    switch (wave) {
+        case 1:
+            enemy = new Enemy(wave, 1000, 5);
+            break;
+        case 2:
+            enemy = new Enemy(wave, 1000, 5);
+            break;
+    }
 }
