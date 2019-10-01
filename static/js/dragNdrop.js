@@ -1,15 +1,15 @@
-document.querySelector('[data-coordinate-x="3"][data-coordinate-y="8"]').innerHTML = "<div class='shop-tower' data-toggle='modal' data-target='#exampleModal'></div>";
-
 let draggableObject;
 let clickTarget;
-let firstTower = document.querySelector(".shop-tower");
 const towerSpots = document.querySelectorAll(".tower-spot");
 
-firstTower.addEventListener('dragstart', dragStart);
-firstTower.addEventListener('dragend', dragEnd);
-firstTower.parentElement.id = "busy";
+for (let i = 0; i < 5; ++i) {
+    let tower = document.querySelector(".shop-tower" + i);
+    tower.addEventListener('dragstart', dragStart);
+    tower.addEventListener('dragend', dragEnd);
+    tower.parentElement.id = "busy";
+}
 
-for (const spot of towerSpots) {
+for (let spot of towerSpots) {
     spot.addEventListener('dragover', dragOver);
     spot.addEventListener('dragenter', dragEnter);
     spot.addEventListener('dragleave', dragLeave);
@@ -20,13 +20,14 @@ function dragStart() {
     clickTarget = this.className;
     draggableObject = document.querySelector("." + clickTarget);
     this.className += " hold";
-    this.parentElement.style.backgroundColor = "black";
-    this.parentElement.style.opacity = "0.3";
+    setTimeout(() => (this.className = "invisible"), 0);
 }
 
 function dragEnd() {
     this.className = clickTarget;
-    this.parentElement = "busy";
+    this.parentElement.id = "busy";
+    this.parentElement.style.opacity = "1";
+    this.parentElement.style.backgroundColor = "transparent";
 }
 
 function dragOver(event) {
@@ -43,11 +44,40 @@ function dragLeave() {
 }
 
 function dragDrop() {
-    if (this.id !== "busy") {
+    if (this.id !== "busy" && draggableObject.id !== "fix-towers") {
         this.appendChild(draggableObject);
-        this.style.opacity = "1";
-        this.style.backgroundColor = "transparent";
-
+        this.firstChild.setAttribute("id", "fix-towers");
+        this.firstChild.addEventListener("dblclick", towerUpgradeModal);
+    } else {
+        this.className = "tower-spot";
     }
-    this.className = "tower-spot";
+
+}
+
+
+function towerUpgradeModal() {
+    const towerLevels = [{},
+    {"damage": 50, "range": 1, "cost": 100},
+    {"damage": 80, "range": 1, "upgradeCost": 80},
+    {"damage": 110, "range": 1, "upgradeCost": 120},
+    {"damage": 150, "range": 2, "upgradeCost": 160},
+    {"damage": 200, "range": 2, "upgradeCost": 200},];
+    let towerLevel = 1;
+    let damage = 50;
+    let range = 1;
+    let nextLevel = 2;
+    let nextDamage = 80;
+    let nextRange = 1;
+    let upgradeCost = 80;
+    let modalToFill = document.querySelector("#exampleModal");
+    console.log(modalToFill);
+    modalToFill.querySelector("#tower-level").innerHTML =  `Tower level = ${towerLevel}`;
+    modalToFill.querySelector("#tower-damage").innerHTML = `Damage =      ${damage}`;
+    modalToFill.querySelector("#tower-range").innerHTML =   `Range =       ${range}`;
+    modalToFill.querySelector("#uTower-level").innerHTML =  `Next level =  ${nextLevel}`;
+    modalToFill.querySelector("#uTower-damage").innerHTML = `New damage =  ${nextDamage}`;
+    modalToFill.querySelector("#uTower-range").innerHTML =  `New range =   ${nextRange}`;
+    modalToFill.querySelector("#upgrade-cost").innerHTML =  `Upgrade cost =${upgradeCost}`;
+    $(modalToFill).modal("show");
+
 }

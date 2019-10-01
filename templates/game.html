@@ -13,8 +13,8 @@
     </div>
 
     <!-- Modal -->
-    <template id="upgradeTemplate">
-    <div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -25,23 +25,23 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table>
-                        <tr>
-                            <td><p id="tower-level"></p></td>
-                            <td><p id="uTower-level"></p></td>
-                        </tr>
-                        <tr>
-                            <td><p id="tower-damage"></p></td>
-                            <td><p id="uTower-damage"></p></td>
-                        </tr>
-                        <tr>
-                            <td><p id="tower-range"></p></td>
-                            <td><p id="uTower-range"></p></td>
-                        </tr>
-                        <tr><td></td>
-                            <td id="upgrade-cost"></td>
-                        </tr>
-                    </table>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div id="tower-level" class="col-6"></div>
+                            <div id="uTower-level" class="col-6 ml-auto"></div>
+                        </div>
+                        <div class="row">
+                            <div id="tower-damage" class="col-6 ml-auto"></div>
+                            <div id="uTower-damage" class="col-6 ml-auto"></div>
+                        </div>
+                        <div class="row">
+                            <div id="tower-range" class="col-6 ml-auto "></div>
+                            <div id="uTower-range" class="col-6 ml-auto"></div>
+                        </div><br/>
+                        <div class="row">
+                            <div id="upgrade-cost" class="col-6 ml-auto"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -51,5 +51,4 @@
             </div>
         </div>
     </div>
-    </template>
 {% endblock %}
