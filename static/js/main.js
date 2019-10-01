@@ -7,17 +7,20 @@ let enemy;
 
 async function mobs() {
     for (let i = 0; i<enemy.quantity; i++) {
-        steps();
+        steps(i);
         await sleep(enemy.spawnTime);
     }
 }
 
-async function steps() {
+async function steps(i) {
+    let mob = document.createElement("div");
+    mob.setAttribute("class", "mob");
+    mob.setAttribute("id", "mob"+ i);
     for (let coordinate of mobRoute) {
         let cell = document.querySelector('[data-coordinate-x="'+ coordinate[X] +'"][data-coordinate-y="' + coordinate[Y] +'"]');
-        cell.style.backgroundColor = "black";
-        await sleep(500);
-        cell.style.backgroundColor = "";
+        cell.appendChild(mob);
+        await sleep(750);
+        cell.removeChild(mob);
     }
 }
 
@@ -29,10 +32,10 @@ function spawn(wave){
 
     switch (wave) {
         case 1:
-            enemy = new Enemy(wave, 1000, 5,100);
+            enemy = new Enemy(wave, 1250, 5);
             break;
         case 2:
-            enemy = new Enemy(wave, 1000, 10,120);
+            enemy = new Enemy(wave, 1250, 10);
             break;
     }
 }
