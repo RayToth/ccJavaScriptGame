@@ -13,7 +13,7 @@
 }
 
 .map td {
-    border: 5px black solid;
+
 }
 
 .tower-spot {
@@ -21,9 +21,10 @@
     opacity: 0.3;
     width: 100%;
     height: 100%;
+    border-radius: 10%;
 }
 
-.first-tower {
+.shop-tower0, .shop-tower1, .shop-tower2, .shop-tower3, .shop-tower4 {
     width: 100%;
     height: 100%;
     cursor: pointer;
@@ -31,3 +32,22 @@
     background-size: cover;
 }
 
+.fix-towers {
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/tower.png");
+    background-size: cover;
+}
+
+.hold {
+    background-color: transparent;
+}
+
+.hovered {
+    background-color: #f4f4f4;
+    opacity: 0.3;
+}
+
+.invisible {
+    display: none;
+}

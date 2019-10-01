@@ -42,8 +42,20 @@ function makeTowerSpots() {
         [2, 6], [3, 3], [4, 3], [3, 4], [4, 4]
         ];
     for (let list of towerSpots) {
-        let spot =document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
+        let spot = document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
         spot.innerHTML = "<div class='tower-spot'></div>";
+    }
+}
+
+function makeShopSpots() {
+    let shopSpots = [
+        [3, 8], [4, 8], [5, 8], [6, 8], [7, 8]
+    ];
+    let towerNum = 0;
+    for (let list of shopSpots) {
+        let spot = document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
+        spot.innerHTML = "<div class='shop-tower"+ towerNum +"' draggable='true'></div>";
+        ++towerNum;
     }
 }
 
@@ -51,6 +63,7 @@ function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
     firstId.addEventListener("click", mobs);
     makeTowerSpots();
+    makeShopSpots();
     spawn(2);
 }
 
