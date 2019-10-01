@@ -51,7 +51,7 @@ function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
     firstId.addEventListener("click", mobs);
     makeTowerSpots();
-    spawn(2);
+    spawn(1);
 }
 
 main();
