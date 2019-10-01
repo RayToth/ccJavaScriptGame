@@ -1,14 +1,55 @@
 {% extends "layout.html" %}
 {% block content %}
     <div id="main-board">
-    <table class="map">
-        {% for row in range(10) %}
-            <tr>
-                {% for col in range(15) %}
-                    <td  data-coordinate-x="{{ col }}" data-coordinate-y="{{ row }}"></td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
+        <table class="map">
+            {% for row in range(10) %}
+                <tr>
+                    {% for col in range(15) %}
+                        <td data-coordinate-x="{{ col }}" data-coordinate-y="{{ row }}"></td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
     </div>
+
+    <!-- Modal -->
+    <template id="upgradeTemplate">
+    <div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tower upgrade menu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td><p id="tower-level"></p></td>
+                            <td><p id="uTower-level"></p></td>
+                        </tr>
+                        <tr>
+                            <td><p id="tower-damage"></p></td>
+                            <td><p id="uTower-damage"></p></td>
+                        </tr>
+                        <tr>
+                            <td><p id="tower-range"></p></td>
+                            <td><p id="uTower-range"></p></td>
+                        </tr>
+                        <tr><td></td>
+                            <td id="upgrade-cost"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Upgrade Tower</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </template>
 {% endblock %}

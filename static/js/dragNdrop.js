@@ -1,4 +1,4 @@
-document.querySelector('[data-coordinate-x="3"][data-coordinate-y="8"]').innerHTML = "<div class='shop-tower'></div>";
+document.querySelector('[data-coordinate-x="3"][data-coordinate-y="8"]').innerHTML = "<div class='shop-tower' data-toggle='modal' data-target='#exampleModal'></div>";
 
 let draggableObject;
 let clickTarget;

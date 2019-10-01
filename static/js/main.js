@@ -3,7 +3,12 @@ const mobRoute = [[0, 5], [1, 5], [2, 5], [2, 4], [2, 3], [2, 2], [3, 2], [4, 2]
 const X = 0;
 const Y = 1;
 let enemy;
-
+const towerLevels = ["",
+    {"damage": 50, "range": 1, "cost": 100},
+    {"damage": 80, "range": 1, "upgradeCost": 80},
+    {"damage": 110, "range": 1, "upgradeCost": 120},
+    {"damage": 150, "range": 2, "upgradeCost": 200},
+    {"damage":"", "range": "", "upgradeCost": ""},];
 
 async function mobs() {
     for (let i = 0; i<enemy.quantity; i++) {
@@ -37,6 +42,41 @@ function spawn(wave){
     }
 }
 
+
+function towerUpgradeModal() {
+    let towerLevel = 1;
+    let damage = 50;
+    let range = 1;
+    let upgradeCost = 80;
+
+    const towerModal = insertModal(towerLevel, damage, range, upgradeCost);
+    this.appendChild(towerModal);
+    let udam = this.querySelector("#uTower-damage");
+    udam.textContent = `Damage = ${damage}`;
+
+}
+
+
+const insertModal = function(towerLevel, damage, range, upgradeCost) {
+    const template = document.querySelector("#upgradeTemplate");
+    const clone = document.importNode(template.content, true);
+
+    // clone.querySelector("#tower-level").textContent = `Tower level ${towerLevel}`;
+    // clone.querySelector("#tower-damage").textContent = `Damage = ${damage}`;
+    // clone.querySelector("#tower-range").textContent = `Range : ${range}`;
+    // clone.querySelector("#upgrade-cost").textContent = `Upgrade Cost : ${upgradeCost}`;
+
+    return clone;
+};
+
+
+async function fixTowerUpgradeEvent () {
+    await sleep(200);
+    let fixTowers = document.querySelector(".shop-tower");
+    fixTowers.addEventListener("dblclick", towerUpgradeModal);
+}
+
+
 function makeTowerSpots() {
     let towerSpots = [
         [2, 6], [3, 3], [4, 3], [3, 4], [4, 4]
@@ -52,6 +92,7 @@ function main () {
     firstId.addEventListener("click", mobs);
     makeTowerSpots();
     spawn(2);
+    fixTowerUpgradeEvent()
 }
 
 main();
