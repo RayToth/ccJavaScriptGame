@@ -32,15 +32,9 @@
     background-size: cover;
 }
 
-.fix-towers {
-    width: 100%;
-    height: 100%;
-    background-image: url("../images/tower.png");
-    background-size: cover;
-}
-
 .hold {
     background-color: transparent;
+    opacity: 0.5;
 }
 
 .hovered {
@@ -50,4 +44,13 @@
 
 .invisible {
     display: none;
+}
+
+.mob  {
+    height: 100%;
+    width: 100%;
+    background-image: url("../images/kurvaanyad.png");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
