@@ -47,6 +47,8 @@ function dragDrop() {
     if (this.id !== "busy" && draggableObject.id !== "fix-towers") {
         this.appendChild(draggableObject);
         this.firstChild.setAttribute("id", "fix-towers");
+        this.firstChild.dataset.level = "1";
+        console.log(this.dataset);
         this.firstChild.addEventListener("dblclick", towerUpgradeModal);
     } else {
         this.className = "tower-spot";

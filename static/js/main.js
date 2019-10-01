@@ -32,14 +32,41 @@ function spawn(wave){
 
     switch (wave) {
         case 1:
-            enemy = new Enemy(wave, 1250, 5);
+            enemy = new Enemy(wave, 1250, 5, 100, 10);
             break;
         case 2:
-            enemy = new Enemy(wave, 1250, 10);
+            enemy = new Enemy(wave, 1250, 10, 150, 20);
+            break;
+        case 3:
+            enemy = new Enemy(wave, 1250, 15, 200, 30);
+            break;
+        case 4:
+            enemy = new Enemy(wave, 1250, 20, 250, 40);
+            break;
+        case 5:
+            enemy = new Enemy(wave, 1250, 25, 300, 50);
             break;
     }
 }
 
+function tower(level) {
+    switch (level) {
+        case 1:
+            tower = new Tower(level, 50, 100);
+            break;
+        case 2:
+            tower = new Tower(level, 100, 110);
+            break;
+        case 3:
+            tower = new Tower(level, 150, 120);
+            break;
+        case 4:
+            tower = new Tower(level, 200, 130);
+            break;
+        case 5:
+            tower = new Tower(level, 250, 140);
+    }
+}
 
 function makeTowerSpots() {
     let towerSpots = [
@@ -69,6 +96,7 @@ function main () {
     makeTowerSpots();
     makeShopSpots();
     spawn(2);
+    tower()
 }
 
 main();
