@@ -29,10 +29,10 @@ function spawn(wave){
 
     switch (wave) {
         case 1:
-            enemy = new Enemy(wave, 1000, 5);
+            enemy = new Enemy(wave, 1000, 5,100);
             break;
         case 2:
-            enemy = new Enemy(wave, 1000, 10);
+            enemy = new Enemy(wave, 1000, 10,120);
             break;
     }
 }
