@@ -3,6 +3,7 @@ const mobRoute = [[0, 5], [1, 5], [2, 5], [2, 4], [2, 3], [2, 2], [3, 2], [4, 2]
 const X = 0;
 const Y = 1;
 let enemy;
+let tower;
 let playerHp = 10;
 let playerGold = 150;
 let wave = 1;
@@ -64,7 +65,7 @@ function spawn(wave){
     }
 }
 
-function tower(level) {
+function towerGrade(level) {
     switch (level) {
         case 1:
             tower = new Tower(level, 50, 100);
