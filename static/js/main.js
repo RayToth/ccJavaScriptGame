@@ -5,6 +5,7 @@ const Y = 1;
 let enemy;
 let playerHp = 10;
 let playerGold = 150;
+let wave = 1;
 
 function setGoldPos() {
     document.querySelector("[data-coordinate-x='13'][data-coordinate-y='0']").setAttribute("id", "gold-pic");
@@ -107,12 +108,20 @@ function makeShopSpots() {
 }
 
 async function checkMobsUnderTw() {
+    spawn(wave);
+    await mobs();
     for (let i = 0; i < 36; ++i) {
         await sleep(750);
         let activeTws = document.querySelectorAll("#fix-towers");
         let mobExists = document.querySelector(".mob");
         if (mobExists === null) {
-            break;
+            if (wave <= 5) {
+                ++wave;
+                await sleep(2000);
+                await checkMobsUnderTw();
+            } else {
+                break;
+            }
         } else {
             for (let tower of activeTws) {
                 let x = tower.parentElement.parentElement.dataset.coordinateX;
@@ -132,8 +141,6 @@ function rangeCheck(towerX, towerY) {
 
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
-    spawn(1);
-    firstId.addEventListener("click", mobs);
     firstId.addEventListener("click", checkMobsUnderTw);
     makeTowerSpots();
     makeShopSpots();
