@@ -11,6 +11,14 @@ let wave = 1;
 function setGoldPos() {
     document.querySelector("[data-coordinate-x='13'][data-coordinate-y='0']").setAttribute("id", "gold-pic");
     document.querySelector("[data-coordinate-x='14'][data-coordinate-y='0']").setAttribute("id", "gold-value");
+    document.querySelector("#gold-value").innerText = playerGold;
+}
+
+function playSoundNremoveListeners() {
+    const sound = new Audio("static/sounds/ding.mp3");
+    sound.play();
+    this.removeEventListener("click", playSound);
+    this.removeEventListener("click", checkMobsUnderTw)
 }
 
 async function mobs() {
@@ -163,6 +171,7 @@ function rangeCheck(towerX, towerY) {
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
     firstId.addEventListener("click", checkMobsUnderTw);
+    firstId.addEventListener("click", playSoundNremoveListeners);
     makeTowerSpots();
     makeShopSpots();
     setGoldPos();
