@@ -17,7 +17,7 @@ async function steps(i) {
     let mob = document.createElement("div");
     mob.setAttribute("class", "mob");
     mob.setAttribute("id", i);
-    mob.setAttribute("data-hp", enemy.health);
+    mob.setAttribute("data-hp", "" +sessionStorage.getItem(""+ i +"")+ "");
     for (let coordinate of mobRoute) {
         let cell = document.querySelector('[data-coordinate-x="'+ coordinate[X] +'"][data-coordinate-y="' + coordinate[Y] +'"]');
         cell.appendChild(mob);
@@ -102,8 +102,8 @@ async function checkMobsUnderTw() {
             break;
         } else {
             for (let tower of activeTws) {
-                let x = tower.parentElement.parentElement.dataset.coordinateX;
-                let y = tower.parentElement.parentElement.dataset.coordinateY;
+                let x = parseInt(tower.parentElement.parentElement.dataset.coordinateX, 10);
+                let y = parseInt(tower.parentElement.parentElement.dataset.coordinateY, 10);
                 rangeCheck(x, y);
             }
         }
@@ -112,9 +112,27 @@ async function checkMobsUnderTw() {
 
 
 function rangeCheck(towerX, towerY) {
-    let range = [
-        []
-    ]
+    let rangeCoordinates = [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]];
+    let mobIds = [];
+    for (let position of rangeCoordinates) {
+        let currentX = towerX + position[X];
+        let currentY = towerY + position[Y];
+        let cellTocheck = document.querySelector('[data-coordinate-x="' + currentX + '"][data-coordinate-y="' + currentY + '"]');
+        if (cellTocheck.querySelector(".mob") !== null) {
+            mobIds.push(parseInt(cellTocheck.querySelector(".mob").id, 10));
+
+        }
+    }
+    if (mobIds.length > 0) {
+        let lowestMobId = Math.min.apply(Math, mobIds);
+        // let mobToShoot = document.getElementById("" + lowestMobId + "");
+        // console.log(lowestMobId , " ",mobToShoot.dataset.hp);
+        sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-50) + "");
+        // let newHp = parseInt(mobToShoot.getAttribute("hp"), 10) - 50;
+        // document.getElementById("" + lowestMobId + "").setAttribute('hp', ""+ newHp + "");
+        // console.log(lowestMobId , " ",mobToShoot.dataset.hp);
+        // sessionStorage.setItem("1", "" + (parseInt(sessionStorage.getItem("1"), 10)-50) + "")
+    }
 }
 
 function main () {
@@ -124,6 +142,9 @@ function main () {
     firstId.addEventListener("click", checkMobsUnderTw);
     makeTowerSpots();
     makeShopSpots();
+    for (let i = 0; i < 6; i++) {
+        sessionStorage.setItem(""+ i +"", "100")
+    }
 }
 
 main();
