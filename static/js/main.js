@@ -4,7 +4,12 @@ const X = 0;
 const Y = 1;
 let enemy;
 let playerHp = 10;
+let playerGold = 150;
 
+function setGoldPos() {
+    document.querySelector("[data-coordinate-x='13'][data-coordinate-y='0']").setAttribute("id", "gold-pic");
+    document.querySelector("[data-coordinate-x='14'][data-coordinate-y='0']").setAttribute("id", "gold-value");
+}
 
 async function mobs() {
     for (let i = 0; i<enemy.quantity; i++) {
@@ -96,6 +101,7 @@ function makeShopSpots() {
     for (let list of shopSpots) {
         let spot = document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
         spot.innerHTML = "<div class='shop-tower"+ towerNum +"' draggable='true'></div>";
+        spot.setAttribute("data-check", "check");
         ++towerNum;
     }
 }
@@ -131,6 +137,8 @@ function main () {
     firstId.addEventListener("click", checkMobsUnderTw);
     makeTowerSpots();
     makeShopSpots();
+    setGoldPos();
 }
+
 
 main();

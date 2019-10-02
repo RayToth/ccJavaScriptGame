@@ -28,6 +28,20 @@ function dragEnd() {
     this.parentElement.id = "busy";
     this.parentElement.style.opacity = "1";
     this.parentElement.style.backgroundColor = "transparent";
+    let checkedTws = document.querySelectorAll('[data-check="check"]');
+    console.log(checkedTws);
+    let observer = false;
+    for (let i = 0; i < checkedTws.length; ++i) {
+        if (checkedTws[i].firstChild !== null) {
+            observer = true;
+        }
+    }
+    if (observer === false) {
+        for (let i = 0; i < towerSpots.length; ++i) {
+            towerSpots[i].style.opacity = "1";
+            towerSpots[i].style.backgroundColor = "transparent";
+        }
+    }
 }
 
 function dragOver(event) {
@@ -53,7 +67,6 @@ function dragDrop() {
     } else {
         this.className = "tower-spot";
     }
-
 }
 
 
