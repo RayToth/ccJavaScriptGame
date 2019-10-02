@@ -17,7 +17,7 @@ function setGoldPos() {
 function playSoundNremoveListeners() {
     const sound = new Audio("static/sounds/ding.mp3");
     sound.play();
-    this.removeEventListener("click", playSound);
+    this.removeEventListener("click", playSoundNremoveListeners);
     this.removeEventListener("click", checkMobsUnderTw)
 }
 
