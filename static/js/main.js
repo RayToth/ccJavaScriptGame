@@ -19,10 +19,14 @@ async function steps(i) {
     mob.setAttribute("id", i);
     mob.setAttribute("data-hp", enemy.health);
     for (let coordinate of mobRoute) {
+        let mobHp = mob.dataset.hp;
         let cell = document.querySelector('[data-coordinate-x="'+ coordinate[X] +'"][data-coordinate-y="' + coordinate[Y] +'"]');
         cell.appendChild(mob);
         await sleep(750);
         cell.removeChild(mob);
+        if(mobHp <= 0) {
+            break;
+        }
     }
 }
 
