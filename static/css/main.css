@@ -13,7 +13,7 @@
 }
 
 .map td {
-    border: solid black 2px;
+    background-color: transparent;
 }
 
 .tower-spot {
@@ -51,6 +51,13 @@
     width: 100%;
     background-image: url("../images/goblin.png");
     background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#gold-pic {
+    background-image: url("../images/coin.png");
+    background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
 }

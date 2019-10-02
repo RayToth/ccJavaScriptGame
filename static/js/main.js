@@ -4,7 +4,12 @@ const X = 0;
 const Y = 1;
 let enemy;
 let playerHp = 10;
+let playerGold = 150;
 
+function setGoldPos() {
+    document.querySelector("[data-coordinate-x='13'][data-coordinate-y='0']").setAttribute("id", "gold-pic");
+    document.querySelector("[data-coordinate-x='14'][data-coordinate-y='0']").setAttribute("id", "gold-value");
+}
 
 async function mobs() {
     for (let i = 0; i<enemy.quantity; i++) {
@@ -17,12 +22,18 @@ async function steps(i) {
     let mob = document.createElement("div");
     mob.setAttribute("class", "mob");
     mob.setAttribute("id", i);
-    mob.setAttribute("data-hp", "" +sessionStorage.getItem(""+ i +"")+ "");
     for (let coordinate of mobRoute) {
+        mob.setAttribute("data-hp", "" +sessionStorage.getItem(""+ i +"")+ "");
+        let mobHp = parseInt(mob.dataset.hp, 10)
+        console.log(mobHp);
+        if(mobHp <= 0) {
+            break;
+        }
         let cell = document.querySelector('[data-coordinate-x="'+ coordinate[X] +'"][data-coordinate-y="' + coordinate[Y] +'"]');
         cell.appendChild(mob);
         await sleep(750);
         cell.removeChild(mob);
+
     }
 }
 
@@ -73,7 +84,10 @@ function tower(level) {
 
 function makeTowerSpots() {
     let towerSpots = [
-        [2, 6], [3, 3], [4, 3], [3, 4], [4, 4]
+        [1, 1], [1, 3], [1, 4], [1, 6], [2, 1], [2, 6], [3, 1], [3, 5], [3, 6], [3, 3], [3, 4], [4, 1], [4, 3], [4, 4],
+        [4, 5], [4, 6], [4, 7], [5, 1], [5, 7], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [6, 7], [7, 5], [7, 7], [8, 3],
+        [8, 4], [8, 5], [8, 7], [9, 7], [10, 3], [10, 5], [10, 6], [10, 7], [11, 3], [11, 5], [12, 3], [12, 5], [13, 3],
+        [13, 5], [14, 3], [14, 5]
         ];
     for (let list of towerSpots) {
         let spot = document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
@@ -89,6 +103,7 @@ function makeShopSpots() {
     for (let list of shopSpots) {
         let spot = document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
         spot.innerHTML = "<div class='shop-tower"+ towerNum +"' draggable='true'></div>";
+        spot.setAttribute("data-check", "check");
         ++towerNum;
     }
 }
@@ -137,13 +152,14 @@ function rangeCheck(towerX, towerY) {
 
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
-    spawn(1);
+    spawn(2);
     firstId.addEventListener("click", mobs);
     firstId.addEventListener("click", checkMobsUnderTw);
     makeTowerSpots();
     makeShopSpots();
-    for (let i = 0; i < 6; i++) {
-        sessionStorage.setItem(""+ i +"", "100")
+    setGoldPos();
+    for (let i = 0; i < enemy.quantity; i++) {
+        sessionStorage.setItem(""+ i +"", ""+ enemy.health+"")
     }
 }
 
