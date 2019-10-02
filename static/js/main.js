@@ -61,7 +61,6 @@ async function steps(i) {
                 document.querySelector("#life-value").innerText = playerHp;
             }
         }
-
     }
 }
 
@@ -181,8 +180,18 @@ function rangeCheck(towerX, towerY) {
     if (mobIds.length > 0) {
         let lowestMobId = Math.min.apply(Math, mobIds);
         sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-50) + "");
-
+        dmgEffect(lowestMobId);
     }
+}
+
+async function dmgEffect(id) {
+    let target = document.getElementById(id.toString());
+    target.style.borderRadius = "50%";
+    target.style.backgroundColor = "red";
+    target.style.opacity = "0.5";
+    await sleep(500);
+    target.style.backgroundColor = "transparent";
+    target.style.opacity = "1";
 }
 
 function main () {
