@@ -61,3 +61,10 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+#gold-value {
+    width: 80px;
+    height: 80px;
+    color: gold;
+    font-size: 20px;
+}
