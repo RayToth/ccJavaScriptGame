@@ -4,6 +4,7 @@ const X = 0;
 const Y = 1;
 let enemy;
 let playerHp = 3;
+let tower;
 let playerGold = 150;
 let wave = 1;
 
@@ -89,7 +90,7 @@ function spawn(wave){
     }
 }
 
-function tower(level) {
+function towerGrade(level) {
     switch (level) {
         case 1:
             tower = new Tower(level, 50, 100);

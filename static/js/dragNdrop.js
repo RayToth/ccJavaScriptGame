@@ -1,6 +1,7 @@
 let draggableObject;
 let clickTarget;
 const towerSpots = document.querySelectorAll(".tower-spot");
+let level = 1;
 
 for (let i = 0; i < 5; ++i) {
     let tower = document.querySelector(".shop-tower" + i);
@@ -70,19 +71,15 @@ function dragDrop() {
 
 
 function towerUpgradeModal() {
-    const towerLevels = [{},
-    {"damage": 50, "range": 1, "cost": 100},
-    {"damage": 80, "range": 1, "upgradeCost": 80},
-    {"damage": 110, "range": 1, "upgradeCost": 120},
-    {"damage": 150, "range": 2, "upgradeCost": 160},
-    {"damage": 200, "range": 2, "upgradeCost": 200},];
-    let towerLevel = 1;
-    let damage = 50;
+    towerGrade(level);
+    let towerLevel = tower.level;
+    let damage = tower.damage;
     let range = 1;
-    let nextLevel = 2;
-    let nextDamage = 80;
+    towerGrade(level+1);
+    let nextLevel = tower.level;
+    let nextDamage = tower.damage;
     let nextRange = 1;
-    let upgradeCost = 80;
+    let upgradeCost = tower.cost;
     let modalToFill = document.querySelector("#exampleModal");
     console.log(modalToFill);
     modalToFill.querySelector("#tower-level").innerHTML =  `Tower level = ${towerLevel}`;
@@ -93,5 +90,6 @@ function towerUpgradeModal() {
     modalToFill.querySelector("#uTower-range").innerHTML =  `New range =   ${nextRange}`;
     modalToFill.querySelector("#upgrade-cost").innerHTML =  `Upgrade cost =${upgradeCost}`;
     $(modalToFill).modal("show");
+
 
 }
