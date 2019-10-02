@@ -13,7 +13,7 @@
 }
 
 .map td {
-
+    border: solid black 2px;
 }
 
 .tower-spot {
@@ -49,7 +49,7 @@
 .mob  {
     height: 100%;
     width: 100%;
-    background-image: url("../images/wave1.png");
+    background-image: url("../images/goblin.png");
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: center;

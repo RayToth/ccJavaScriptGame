@@ -3,6 +3,7 @@ const mobRoute = [[0, 5], [1, 5], [2, 5], [2, 4], [2, 3], [2, 2], [3, 2], [4, 2]
 const X = 0;
 const Y = 1;
 let enemy;
+let playerHp = 10;
 
 
 async function mobs() {
@@ -15,7 +16,8 @@ async function mobs() {
 async function steps(i) {
     let mob = document.createElement("div");
     mob.setAttribute("class", "mob");
-    mob.setAttribute("id", "mob"+ i);
+    mob.setAttribute("id", i);
+    mob.setAttribute("data-hp", enemy.health);
     for (let coordinate of mobRoute) {
         let cell = document.querySelector('[data-coordinate-x="'+ coordinate[X] +'"][data-coordinate-y="' + coordinate[Y] +'"]');
         cell.appendChild(mob);
@@ -68,6 +70,7 @@ function tower(level) {
     }
 }
 
+
 function makeTowerSpots() {
     let towerSpots = [
         [2, 6], [3, 3], [4, 3], [3, 4], [4, 4]
@@ -90,13 +93,37 @@ function makeShopSpots() {
     }
 }
 
+async function checkMobsUnderTw() {
+    for (let i = 0; i < 36; ++i) {
+        await sleep(750);
+        let activeTws = document.querySelectorAll("#fix-towers");
+        let mobExists = document.querySelector(".mob");
+        if (mobExists === null) {
+            break;
+        } else {
+            for (let tower of activeTws) {
+                let x = tower.parentElement.parentElement.dataset.coordinateX;
+                let y = tower.parentElement.parentElement.dataset.coordinateY;
+                rangeCheck(x, y);
+            }
+        }
+    }
+}
+
+
+function rangeCheck(towerX, towerY) {
+    let range = [
+        []
+    ]
+}
+
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
+    spawn(1);
     firstId.addEventListener("click", mobs);
+    firstId.addEventListener("click", checkMobsUnderTw);
     makeTowerSpots();
     makeShopSpots();
-    spawn(2);
-    tower()
 }
 
 main();
