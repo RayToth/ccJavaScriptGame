@@ -29,7 +29,6 @@ function dragEnd() {
     this.parentElement.style.opacity = "1";
     this.parentElement.style.backgroundColor = "transparent";
     let checkedTws = document.querySelectorAll('[data-check="check"]');
-    console.log(checkedTws);
     let observer = false;
     for (let i = 0; i < checkedTws.length; ++i) {
         if (checkedTws[i].firstChild !== null) {
@@ -58,11 +57,11 @@ function dragLeave() {
 }
 
 function dragDrop() {
-    if (this.id !== "busy" && draggableObject.id !== "fix-towers") {
+    if (this.id !== "busy" && draggableObject.id !== "fix-towers" && playerGold >= 100) {
         this.appendChild(draggableObject);
         this.firstChild.setAttribute("id", "fix-towers");
+        minusGold(100);
         this.firstChild.dataset.level = "1";
-        console.log(this.dataset);
         this.firstChild.addEventListener("dblclick", towerUpgradeModal);
     } else {
         this.className = "tower-spot";

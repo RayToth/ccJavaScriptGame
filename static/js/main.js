@@ -3,21 +3,34 @@ const mobRoute = [[0, 5], [1, 5], [2, 5], [2, 4], [2, 3], [2, 2], [3, 2], [4, 2]
 const X = 0;
 const Y = 1;
 let enemy;
-let playerHp = 10;
+let playerHp = 3;
 let playerGold = 150;
 let wave = 1;
 
-function setGoldPos() {
+function setStartGoldNlifePos() {
     document.querySelector("[data-coordinate-x='13'][data-coordinate-y='0']").setAttribute("id", "gold-pic");
     document.querySelector("[data-coordinate-x='14'][data-coordinate-y='0']").setAttribute("id", "gold-value");
+    document.querySelector("#gold-value").innerText = playerGold;
+    document.querySelector("[data-coordinate-x='13'][data-coordinate-y='1']").setAttribute("id", "life-pic");
+    document.querySelector("[data-coordinate-x='14'][data-coordinate-y='1']").setAttribute("id", "life-value");
+    document.querySelector("#life-value").innerText = playerHp;
+}
+
+function plusGold(quantity) {
+    playerGold += quantity;
+    document.querySelector("#gold-value").innerText = playerGold;
+}
+
+function minusGold(quantity) {
+    playerGold -= quantity;
     document.querySelector("#gold-value").innerText = playerGold;
 }
 
 function playSoundNremoveListeners() {
     const sound = new Audio("static/sounds/ding.mp3");
     sound.play();
-    this.removeEventListener("click", playSound);
-    this.removeEventListener("click", checkMobsUnderTw)
+    this.removeEventListener("click", playSoundNremoveListeners);
+    this.removeEventListener("click", checkMobsUnderTw);
 }
 
 async function mobs() {
@@ -34,14 +47,18 @@ async function steps(i) {
     for (let coordinate of mobRoute) {
         mob.setAttribute("data-hp", "" +sessionStorage.getItem(""+ i +"")+ "");
         let mobHp = parseInt(mob.dataset.hp, 10);
-        console.log(mobHp);
         if(mobHp <= 0) {
+            plusGold(enemy.bounty);
             break;
         }else {
             let cell = document.querySelector('[data-coordinate-x="' + coordinate[X] + '"][data-coordinate-y="' + coordinate[Y] + '"]');
             cell.appendChild(mob);
             await sleep(750);
             cell.removeChild(mob);
+            if  (coordinate[0] === 14) {
+                --playerHp;
+                document.querySelector("#life-value").innerText = playerHp;
+            }
         }
 
     }
@@ -173,8 +190,7 @@ function main () {
     firstId.addEventListener("click", playSoundNremoveListeners);
     makeTowerSpots();
     makeShopSpots();
-    setGoldPos();
-
+    setStartGoldNlifePos();
 }
 
 main();
