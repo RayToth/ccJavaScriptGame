@@ -5,6 +5,7 @@ const Y = 1;
 let enemy;
 let playerHp = 10;
 let playerGold = 150;
+let wave = 1;
 
 function setGoldPos() {
     document.querySelector("[data-coordinate-x='13'][data-coordinate-y='0']").setAttribute("id", "gold-pic");
@@ -24,15 +25,16 @@ async function steps(i) {
     mob.setAttribute("id", i);
     for (let coordinate of mobRoute) {
         mob.setAttribute("data-hp", "" +sessionStorage.getItem(""+ i +"")+ "");
-        let mobHp = parseInt(mob.dataset.hp, 10)
+        let mobHp = parseInt(mob.dataset.hp, 10);
         console.log(mobHp);
         if(mobHp <= 0) {
             break;
+        }else {
+            let cell = document.querySelector('[data-coordinate-x="' + coordinate[X] + '"][data-coordinate-y="' + coordinate[Y] + '"]');
+            cell.appendChild(mob);
+            await sleep(750);
+            cell.removeChild(mob);
         }
-        let cell = document.querySelector('[data-coordinate-x="'+ coordinate[X] +'"][data-coordinate-y="' + coordinate[Y] +'"]');
-        cell.appendChild(mob);
-        await sleep(750);
-        cell.removeChild(mob);
 
     }
 }
@@ -109,12 +111,24 @@ function makeShopSpots() {
 }
 
 async function checkMobsUnderTw() {
-    for (let i = 0; i < 36; ++i) {
+    spawn(wave);
+    sessionStorage.clear();
+    for (let i = 0; i < enemy.quantity; i++) {
+        sessionStorage.setItem(""+ i +"", ""+ enemy.health +"")
+    }
+    mobs();
+    for (let i = 0; i < (enemy.quantity * 2 + 23) ; ++i) {
         await sleep(750);
         let activeTws = document.querySelectorAll("#fix-towers");
         let mobExists = document.querySelector(".mob");
         if (mobExists === null) {
-            break;
+            if (wave <= 5) {
+                ++wave;
+                await sleep(2000);
+                await checkMobsUnderTw();
+            } else {
+                break;
+            }
         } else {
             for (let tower of activeTws) {
                 let x = parseInt(tower.parentElement.parentElement.dataset.coordinateX, 10);
@@ -140,27 +154,18 @@ function rangeCheck(towerX, towerY) {
     }
     if (mobIds.length > 0) {
         let lowestMobId = Math.min.apply(Math, mobIds);
-        // let mobToShoot = document.getElementById("" + lowestMobId + "");
-        // console.log(lowestMobId , " ",mobToShoot.dataset.hp);
         sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-50) + "");
-        // let newHp = parseInt(mobToShoot.getAttribute("hp"), 10) - 50;
-        // document.getElementById("" + lowestMobId + "").setAttribute('hp', ""+ newHp + "");
-        // console.log(lowestMobId , " ",mobToShoot.dataset.hp);
-        // sessionStorage.setItem("1", "" + (parseInt(sessionStorage.getItem("1"), 10)-50) + "")
+
     }
 }
 
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
-    spawn(2);
-    firstId.addEventListener("click", mobs);
     firstId.addEventListener("click", checkMobsUnderTw);
     makeTowerSpots();
     makeShopSpots();
     setGoldPos();
-    for (let i = 0; i < enemy.quantity; i++) {
-        sessionStorage.setItem(""+ i +"", ""+ enemy.health+"")
-    }
+
 }
 
 main();
