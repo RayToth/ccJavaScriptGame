@@ -5,8 +5,21 @@
     font-style: normal;
 }
 
-html {
-    cursor: url("../images/cursor.png") auto !important;
+body {
+    background-image: url("../images/grass_template2.jpg");
+    background-size: cover;
+}
+
+.container {
+    text-align: center;
+}
+
+.instructions {
+    margin: auto;
+    background-color: #f4f4f4;
+    width: 60%;
+    border-radius: 20%;
+    opacity: 0.5;
 }
 
 #main-board {

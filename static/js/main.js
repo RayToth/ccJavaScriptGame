@@ -5,7 +5,7 @@ const Y = 1;
 let enemy;
 let playerHp = 3;
 let tower;
-let playerGold = 1150;
+let playerGold = 150;
 let wave = 1;
 
 function setStartGoldNlifePos() {
@@ -74,7 +74,7 @@ async function steps(i) {
                     break;
         }else {
             let cell = document.querySelector('[data-coordinate-x="' + coordinate[X] + '"][data-coordinate-y="' + coordinate[Y] + '"]');
-            if (wave === 3) {
+            if (wave === 5) {
                 mob.style.backgroundImage = "url('static/images/boss.png')";
                 cell.appendChild(mob);
                 await sleep(750);
@@ -104,19 +104,16 @@ function spawn(wave){
             enemy = new Enemy(wave, 1250, 5, 100, 10);
             break;
         case 2:
-            enemy = new Enemy(wave, 1250, 10, 150, 15);
+            enemy = new Enemy(wave, 1250, 10, 200, 30);
             break;
         case 3:
-            enemy = new Enemy(wave, 1250, 3, 500, 30);
+            enemy = new Enemy(wave, 1250, 25, 400, 35);
             break;
         case 4:
-            enemy = new Enemy(wave, 1250, 15, 200, 20);
+            enemy = new Enemy(wave, 1250, 15, 600, 40);
             break;
         case 5:
-            enemy = new Enemy(wave, 1250, 20, 250, 25);
-            break;
-        case 6:
-            enemy = new Enemy(wave, 1250, 25, 300, 30);
+            enemy = new Enemy(wave, 1250, 10, 1200, 40);
             break;
     }
 }
@@ -245,7 +242,7 @@ function rangeCheck(towerX, towerY, towers) {
 
 async function dmgEffect(id) {
     let target = document.getElementById(id.toString());
-    if (wave === 3) {
+    if (wave === 5) {
         target.style.backgroundImage = "url('static/images/boss_dmg.png')";
         await sleep(500);
         target.style.backgroundImage = "url('static/images/boss.png')";
