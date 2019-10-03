@@ -23,6 +23,8 @@ body {
 }
 
 .instructions {
+    padding-top: 20px;
+    padding-bottom: 20px;
     margin: auto;
     background-color: #f4f4f4;
     width: 60%;
