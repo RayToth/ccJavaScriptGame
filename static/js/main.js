@@ -5,7 +5,7 @@ const Y = 1;
 let enemy;
 let playerHp = 3;
 let tower;
-let playerGold = 1250;
+let playerGold = 150;
 let wave = 1;
 
 function setStartGoldNlifePos() {
@@ -32,6 +32,12 @@ function playSoundNremoveListeners() {
     sound.play();
     this.removeEventListener("click", playSoundNremoveListeners);
     this.removeEventListener("click", checkMobsUnderTw);
+    this.removeEventListener("click", waves);
+}
+
+function playDmgSound() {
+    const dmgSound = new Audio("static/sounds/dmg3.mp3");
+    dmgSound.play();
 }
 
 async function mobs() {
@@ -51,6 +57,8 @@ async function steps(i) {
         if(mobHp <= 0) {
             plusGold(enemy.bounty);
             break;
+        } else if (playerHp < 1){
+                    break;
         }else {
             let cell = document.querySelector('[data-coordinate-x="' + coordinate[X] + '"][data-coordinate-y="' + coordinate[Y] + '"]');
             cell.appendChild(mob);
@@ -135,9 +143,21 @@ function makeShopSpots() {
     }
 }
 
+
+function waves(wave){
+    let board = document.querySelector('#main-board');
+    let text = document.createElement('div');
+    text.setAttribute('class', 'wave');
+    board.appendChild(text);
+}
+
+
 async function checkMobsUnderTw() {
-    spawn(wave);
-    for (let i = 0; i < enemy.quantity; i++) {
+    if (playerHp > 0){
+        document.querySelector('.wave').innerText = 'WAVE ' + wave;
+        await sleep(2000);
+        spawn(wave);
+        for (let i = 0; i < enemy.quantity; i++) {
         sessionStorage.removeItem(""+ i + "");
         sessionStorage.setItem(""+ i +"", ""+ enemy.health +"")
     }
@@ -147,20 +167,29 @@ async function checkMobsUnderTw() {
         let activeTws = document.querySelectorAll("#fix-towers");
         let mobExists = document.querySelector(".mob");
         if (mobExists === null) {
-            if (wave <= 5) {
-                ++wave;
-                await sleep(2000);
-                await checkMobsUnderTw();
+            if (wave < 5 || playerHp > 0) {
+                    ++wave;
+                    await checkMobsUnderTw();
+                } else {
+                    break;
+                }
             } else {
-                break;
-            }
-        } else {
-            for (let towers of activeTws) {
-                let x = parseInt(towers.parentElement.parentElement.dataset.coordinateX, 10);
-                let y = parseInt(towers.parentElement.parentElement.dataset.coordinateY, 10);
-                rangeCheck(x, y, towers);
+                for (let towers of activeTws) {
+                    let x = parseInt(towers.parentElement.parentElement.dataset.coordinateX, 10);
+                    let y = parseInt(towers.parentElement.parentElement.dataset.coordinateY, 10);
+                    rangeCheck(x, y, towers);
+                }
             }
         }
+    } else {
+        let mainBoard = document.getElementById("main-board")
+        mainBoard.innerHTML = "Game Over";
+        mainBoard.style.textAlign = "center";
+        mainBoard.style.fontSize = "200px";
+        mainBoard.style.paddingTop = "200px";
+        mainBoard.style.fontFamily = "Cipote";
+        mainBoard.style.color = "white";
+        mainBoard.style.textShadow = "5px 10px black";
     }
 }
 
@@ -178,23 +207,29 @@ function rangeCheck(towerX, towerY, towers) {
         }
     }
     if (mobIds.length > 0) {
+        let targetTw = document.querySelector('[data-coordinate-x="' + towerX + '"][data-coordinate-y="' + towerY + '"]');
         let lowestMobId = Math.min.apply(Math, mobIds);
         let level = parseInt(sessionStorage.getItem(""+towers.className+""), 10);
         towerGrade(level);
         let mobDamage = tower.damage;
         sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-mobDamage) + "");
+        playDmgSound();
         dmgEffect(lowestMobId);
+        dmgEffectTw(targetTw);
     }
 }
 
 async function dmgEffect(id) {
     let target = document.getElementById(id.toString());
-    target.style.borderRadius = "50%";
-    target.style.backgroundColor = "red";
-    target.style.opacity = "0.5";
+    target.style.backgroundImage = "url('static/images/mob_dmg.png')";
     await sleep(500);
-    target.style.backgroundColor = "transparent";
-    target.style.opacity = "1";
+    target.style.backgroundImage = "url('static/images/mob.png')";
+}
+
+async function dmgEffectTw(tower) {
+    tower.firstChild.firstChild.style.backgroundImage = "url('static/images/custom_tw_dmg.png')";
+    await sleep(500);
+    tower.firstChild.firstChild.style.backgroundImage = "url('static/images/custom_tw.png')";
 }
 
 function setTowerBaseLevel() {
@@ -205,6 +240,7 @@ function setTowerBaseLevel() {
 }
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
+    firstId.addEventListener("click", waves);
     firstId.addEventListener("click", checkMobsUnderTw);
     firstId.addEventListener("click", playSoundNremoveListeners);
     setTowerBaseLevel();
