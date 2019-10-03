@@ -87,6 +87,12 @@
     left: 40%;
 }
 
+
+.start-btn{
+    background-image: url("../images/play.png");
+}
+
+
 #gold-pic {
     background-image: url("../images/coin.png");
     background-size: 80%;

@@ -245,7 +245,8 @@ function setTowerBaseLevel() {
     }
 }
 function main () {
-    let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
+    let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="5"]');
+    firstId.setAttribute("class", "start-btn");
     firstId.addEventListener("click", waves);
     firstId.addEventListener("click", checkMobsUnderTw);
     firstId.addEventListener("click", playSoundNremoveListeners);
