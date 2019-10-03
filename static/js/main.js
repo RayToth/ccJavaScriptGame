@@ -188,11 +188,11 @@ async function checkMobsUnderTw() {
         let activeTws = document.querySelectorAll("#fix-towers");
         let mobExists = document.querySelector(".mob");
         if (mobExists === null) {
-            if (wave < 5 || playerHp > 0) {
+            if (wave < 6 ){
                     ++wave;
                     await checkMobsUnderTw();
                 } else {
-                    break;
+                    win();
                 }
             } else {
                 for (let towers of activeTws) {
@@ -265,6 +265,20 @@ function setTowerBaseLevel() {
         sessionStorage.setItem("shop-tower"+ i + "", "1");
     }
 }
+
+
+function win(){
+    let mainBoard = document.getElementById("main-board")
+        mainBoard.innerHTML = "YOU WON!";
+        mainBoard.style.textAlign = "center";
+        mainBoard.style.fontSize = "200px";
+        mainBoard.style.paddingTop = "200px";
+        mainBoard.style.fontFamily = "Cipote";
+        mainBoard.style.color = "white";
+        mainBoard.style.textShadow = "5px 10px black";
+}
+
+
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="5"]');
     firstId.setAttribute("class", "start-btn");
