@@ -32,6 +32,12 @@ function playSoundNremoveListeners() {
     sound.play();
     this.removeEventListener("click", playSoundNremoveListeners);
     this.removeEventListener("click", checkMobsUnderTw);
+    this.removeEventListener("click", waves);
+}
+
+function playDmgSound() {
+    const dmgSound = new Audio("static/sounds/dmg3.mp3");
+    dmgSound.play();
 }
 
 async function mobs() {
@@ -149,32 +155,41 @@ function waves(wave){
 async function checkMobsUnderTw() {
     if (playerHp > 0){
         document.querySelector('.wave').innerText = 'WAVE ' + wave;
-    }
-    await sleep(2000);
-    spawn(wave);
-    sessionStorage.clear();
-    for (let i = 0; i < enemy.quantity; i++) {
-        sessionStorage.setItem(""+ i +"", ""+ enemy.health +"")
-    }
-    mobs();
-    for (let i = 0; i < (enemy.quantity * 2 + 23) ; ++i) {
-        await sleep(750);
-        let activeTws = document.querySelectorAll("#fix-towers");
-        let mobExists = document.querySelector(".mob");
-        if (mobExists === null) {
-            if (wave < 5 || playerHp > 0) {
-                ++wave;
-                await checkMobsUnderTw();
+        await sleep(2000);
+        spawn(wave);
+        sessionStorage.clear();
+        for (let i = 0; i < enemy.quantity; i++) {
+            sessionStorage.setItem(""+ i +"", ""+ enemy.health +"")
+        }
+        mobs();
+        for (let i = 0; i < (enemy.quantity * 2 + 23) ; ++i) {
+            await sleep(750);
+            let activeTws = document.querySelectorAll("#fix-towers");
+            let mobExists = document.querySelector(".mob");
+            if (mobExists === null) {
+                if (wave < 5 || playerHp > 0) {
+                    ++wave;
+                    await checkMobsUnderTw();
+                } else {
+                    break;
+                }
             } else {
-                break;
-            }
-        } else {
-            for (let tower of activeTws) {
-                let x = parseInt(tower.parentElement.parentElement.dataset.coordinateX, 10);
-                let y = parseInt(tower.parentElement.parentElement.dataset.coordinateY, 10);
-                rangeCheck(x, y);
+                for (let tower of activeTws) {
+                    let x = parseInt(tower.parentElement.parentElement.dataset.coordinateX, 10);
+                    let y = parseInt(tower.parentElement.parentElement.dataset.coordinateY, 10);
+                    rangeCheck(x, y);
+                }
             }
         }
+    } else {
+        let mainBoard = document.getElementById("main-board")
+        mainBoard.innerHTML = "Game Over";
+        mainBoard.style.textAlign = "center";
+        mainBoard.style.fontSize = "200px";
+        mainBoard.style.paddingTop = "200px";
+        mainBoard.style.fontFamily = "Cipote";
+        mainBoard.style.color = "white";
+        mainBoard.style.textShadow = "5px 10px black";
     }
 }
 
@@ -195,6 +210,7 @@ function rangeCheck(towerX, towerY) {
         let targetTw = document.querySelector('[data-coordinate-x="' + towerX + '"][data-coordinate-y="' + towerY + '"]');
         let lowestMobId = Math.min.apply(Math, mobIds);
         sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-50) + "");
+        playDmgSound();
         dmgEffect(lowestMobId);
         dmgEffectTw(targetTw);
     }

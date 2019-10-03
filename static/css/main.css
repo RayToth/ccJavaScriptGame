@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'Cipote', sans-serif;
+    font-family: 'Cipote';
     src: url('../font/Cipote.woff') format('woff');
     font-weight: normal;
     font-style: normal;
@@ -20,7 +20,6 @@
 }
 
 .map td {
-    background-color: transparent;
 }
 
 .tower-spot {
