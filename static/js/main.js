@@ -33,6 +33,8 @@ function playSoundNremoveListeners() {
     this.removeEventListener("click", playSoundNremoveListeners);
     this.removeEventListener("click", checkMobsUnderTw);
     this.removeEventListener("click", waves);
+    this.style.backgroundImage = "none";
+    this.style.cursor = "default";
 }
 
 function playDmgSound() {
@@ -43,6 +45,11 @@ function playDmgSound() {
 function playDeathSound() {
     const deathSound = new Audio("static/sounds/death.mp3");
     deathSound.play();
+}
+
+function playCoinSound() {
+    const coinSound = new Audio("static/sounds/coin.mp3");
+    coinSound.play();
 }
 
 async function mobs() {
@@ -67,9 +74,17 @@ async function steps(i) {
                     break;
         }else {
             let cell = document.querySelector('[data-coordinate-x="' + coordinate[X] + '"][data-coordinate-y="' + coordinate[Y] + '"]');
-            cell.appendChild(mob);
-            await sleep(750);
-            cell.removeChild(mob);
+            if (wave === 3) {
+                mob.style.backgroundImage = "url('static/images/boss.png')";
+                cell.appendChild(mob);
+                await sleep(750);
+                cell.removeChild(mob);
+            } else {
+                mob.style.backgroundImage = "url('static/images/mob.png')";
+                cell.appendChild(mob);
+                await sleep(750);
+                cell.removeChild(mob);
+            }
             if  (coordinate[0] === 14) {
                 --playerHp;
                 document.querySelector("#life-value").innerText = playerHp;
@@ -89,16 +104,19 @@ function spawn(wave){
             enemy = new Enemy(wave, 1250, 5, 100, 10);
             break;
         case 2:
-            enemy = new Enemy(wave, 1250, 10, 150, 20);
+            enemy = new Enemy(wave, 1250, 10, 150, 15);
             break;
         case 3:
-            enemy = new Enemy(wave, 1250, 15, 200, 30);
+            enemy = new Enemy(wave, 1250, 3, 500, 30);
             break;
         case 4:
-            enemy = new Enemy(wave, 1250, 20, 250, 40);
+            enemy = new Enemy(wave, 1250, 15, 200, 20);
             break;
         case 5:
-            enemy = new Enemy(wave, 1250, 25, 300, 50);
+            enemy = new Enemy(wave, 1250, 20, 250, 25);
+            break;
+        case 6:
+            enemy = new Enemy(wave, 1250, 25, 300, 30);
             break;
     }
 }
@@ -188,7 +206,7 @@ async function checkMobsUnderTw() {
             }
         }
     } else {
-        let mainBoard = document.getElementById("main-board")
+        let mainBoard = document.getElementById("main-board");
         mainBoard.innerHTML = "Game Over";
         mainBoard.style.textAlign = "center";
         mainBoard.style.fontSize = "200px";
@@ -227,9 +245,15 @@ function rangeCheck(towerX, towerY, towers) {
 
 async function dmgEffect(id) {
     let target = document.getElementById(id.toString());
-    target.style.backgroundImage = "url('static/images/mob_dmg.png')";
-    await sleep(500);
-    target.style.backgroundImage = "url('static/images/mob.png')";
+    if (wave === 3) {
+        target.style.backgroundImage = "url('static/images/boss_dmg.png')";
+        await sleep(500);
+        target.style.backgroundImage = "url('static/images/boss.png')";
+    } else {
+        target.style.backgroundImage = "url('static/images/mob_dmg.png')";
+        await sleep(500);
+        target.style.backgroundImage = "url('static/images/mob.png')";
+    }
 }
 
 async function dmgEffectTw(tower) {
