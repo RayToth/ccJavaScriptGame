@@ -137,7 +137,20 @@ function makeShopSpots() {
     }
 }
 
+
+function waves(wave){
+    let board = document.querySelector('#main-board');
+    let text = document.createElement('div');
+    text.setAttribute('class', 'wave');
+    board.appendChild(text);
+}
+
+
 async function checkMobsUnderTw() {
+    if (playerHp > 0){
+        document.querySelector('.wave').innerText = 'WAVE ' + wave;
+    }
+    await sleep(2000);
     spawn(wave);
     sessionStorage.clear();
     for (let i = 0; i < enemy.quantity; i++) {
@@ -149,9 +162,8 @@ async function checkMobsUnderTw() {
         let activeTws = document.querySelectorAll("#fix-towers");
         let mobExists = document.querySelector(".mob");
         if (mobExists === null) {
-            if (wave <= 5) {
+            if (wave < 5 || playerHp > 0) {
                 ++wave;
-                await sleep(2000);
                 await checkMobsUnderTw();
             } else {
                 break;
@@ -203,6 +215,7 @@ async function dmgEffectTw(tower) {
 
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
+    firstId.addEventListener("click", waves);
     firstId.addEventListener("click", checkMobsUnderTw);
     firstId.addEventListener("click", playSoundNremoveListeners);
     makeTowerSpots();
