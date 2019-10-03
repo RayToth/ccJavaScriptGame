@@ -51,6 +51,8 @@ async function steps(i) {
         if(mobHp <= 0) {
             plusGold(enemy.bounty);
             break;
+        } else if (playerHp < 1){
+                    break;
         }else {
             let cell = document.querySelector('[data-coordinate-x="' + coordinate[X] + '"][data-coordinate-y="' + coordinate[Y] + '"]');
             cell.appendChild(mob);
