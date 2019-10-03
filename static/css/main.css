@@ -5,6 +5,10 @@
     font-style: normal;
 }
 
+html {
+    cursor: url("../images/cursor.png") auto !important;
+}
+
 #main-board {
     width: 1200px;
     height: 800px;
@@ -89,7 +93,11 @@
 
 
 .start-btn{
-    background-image: url("../images/play.png");
+    background-image: url("../images/start.png");
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
 }
 
 
