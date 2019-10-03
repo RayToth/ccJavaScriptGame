@@ -22,6 +22,10 @@ body {
     text-decoration: none;
 }
 
+.container a:hover {
+    opacity: 0.5;
+}
+
 .instructions {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -111,7 +115,7 @@ body {
     text-align: center;
     z-index: 1000;
     top:0;
-    left: 40%;
+    left: 43%;
 }
 
 
@@ -121,6 +125,15 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+}
+
+#basic-tower-name, #basic-tower-cost {
+    width: 80px;
+    height: 80px;
+    color: gold;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
 }
 
 

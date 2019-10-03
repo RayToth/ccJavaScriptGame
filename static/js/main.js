@@ -15,6 +15,10 @@ function setStartGoldNlifePos() {
     document.querySelector("[data-coordinate-x='13'][data-coordinate-y='1']").setAttribute("id", "life-pic");
     document.querySelector("[data-coordinate-x='14'][data-coordinate-y='1']").setAttribute("id", "life-value");
     document.querySelector("#life-value").innerText = playerHp;
+    document.querySelector("[data-coordinate-x='1'][data-coordinate-y='8']").setAttribute("id", "basic-tower-name");
+    document.querySelector("[data-coordinate-x='2'][data-coordinate-y='8']").setAttribute("id", "basic-tower-cost");
+    document.querySelector("#basic-tower-name").innerText = "Cost:";
+    document.querySelector("#basic-tower-cost").innerText = "100";
 }
 
 function plusGold(quantity) {
