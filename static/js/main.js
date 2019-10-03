@@ -40,6 +40,11 @@ function playDmgSound() {
     dmgSound.play();
 }
 
+function playDeathSound() {
+    const deathSound = new Audio("static/sounds/death.mp3");
+    deathSound.play();
+}
+
 async function mobs() {
     for (let i = 0; i<enemy.quantity; i++) {
         steps(i);
@@ -55,6 +60,7 @@ async function steps(i) {
         mob.setAttribute("data-hp", "" +sessionStorage.getItem(""+ i +"")+ "");
         let mobHp = parseInt(mob.dataset.hp, 10);
         if(mobHp <= 0) {
+            playDeathSound();
             plusGold(enemy.bounty);
             break;
         } else if (playerHp < 1){
@@ -122,7 +128,7 @@ function makeTowerSpots() {
         [1, 1], [1, 3], [1, 4], [1, 6], [2, 1], [2, 6], [3, 1], [3, 5], [3, 6], [3, 3], [3, 4], [4, 1], [4, 3], [4, 4],
         [4, 5], [4, 6], [4, 7], [5, 1], [5, 7], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [6, 7], [7, 5], [7, 7], [8, 3],
         [8, 4], [8, 5], [8, 7], [9, 7], [10, 3], [10, 5], [10, 6], [10, 7], [11, 3], [11, 5], [12, 3], [12, 5], [13, 3],
-        [13, 5], [14, 3], [14, 5]
+        [13, 5]
         ];
     for (let list of towerSpots) {
         let spot = document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
