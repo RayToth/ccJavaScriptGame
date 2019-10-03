@@ -99,10 +99,10 @@ function towerUpgradeModal(spot) {
                 minusGold(upgradeCost);
                 document.getElementById("upgrade-button").removeEventListener("click", setMoney)
             } else {
-                alert("No money bitch!");
+                alert("Not enough money!");
             }
         }
     } else {
-        alert("Tower level Maxxed!")
+        alert("Tower level maxed!")
     }
 }
