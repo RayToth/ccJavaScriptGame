@@ -5,7 +5,7 @@ const Y = 1;
 let enemy;
 let playerHp = 3;
 let tower;
-let playerGold = 150;
+let playerGold = 1150;
 let wave = 1;
 
 function setStartGoldNlifePos() {
