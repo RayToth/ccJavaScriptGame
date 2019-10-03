@@ -55,6 +55,7 @@ function dragDrop() {
     if (this.id !== "busy" && draggableObject.id !== "fix-towers" && playerGold >= 100) {
         this.appendChild(draggableObject);
         this.firstChild.setAttribute("id", "fix-towers");
+        this.firstChild.setAttribute("data-level", "1");
         minusGold(100);
         this.firstChild.addEventListener("dblclick", towerUpgradeModal);
         this.className = "tower-spot";
@@ -92,6 +93,7 @@ function towerUpgradeModal(spot) {
         function setMoney() {
             if (playerGold >= upgradeCost) {
                 sessionStorage.setItem("" + currentTower + "", "" + nextLevel + "");
+                document.querySelector("."+currentTower+"").setAttribute("data-level", ""+nextLevel+"");
                 minusGold(upgradeCost);
                 document.getElementById("upgrade-button").removeEventListener("click", setMoney)
             } else {
