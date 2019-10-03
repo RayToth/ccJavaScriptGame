@@ -180,20 +180,25 @@ function rangeCheck(towerX, towerY) {
         }
     }
     if (mobIds.length > 0) {
+        let targetTw = document.querySelector('[data-coordinate-x="' + towerX + '"][data-coordinate-y="' + towerY + '"]');
         let lowestMobId = Math.min.apply(Math, mobIds);
         sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-50) + "");
         dmgEffect(lowestMobId);
+        dmgEffectTw(targetTw);
     }
 }
 
 async function dmgEffect(id) {
     let target = document.getElementById(id.toString());
-    target.style.borderRadius = "50%";
-    target.style.backgroundColor = "red";
-    target.style.opacity = "0.5";
+    target.style.backgroundImage = "url('static/images/mob_dmg.png')";
     await sleep(500);
-    target.style.backgroundColor = "transparent";
-    target.style.opacity = "1";
+    target.style.backgroundImage = "url('static/images/mob.png')";
+}
+
+async function dmgEffectTw(tower) {
+    tower.firstChild.firstChild.style.backgroundImage = "url('static/images/custom_tw_dmg.png')";
+    await sleep(500);
+    tower.firstChild.firstChild.style.backgroundImage = "url('static/images/custom_tw.png')";
 }
 
 function main () {
