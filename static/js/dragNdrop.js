@@ -21,7 +21,10 @@ function dragStart() {
     clickTarget = this.className;
     draggableObject = document.querySelector("." + clickTarget);
     this.className += " hold";
-    setTimeout(() => (this.className = "invisible"), 0);
+    let twSpots = document.querySelectorAll(".tower-spot");
+    for (let spot of twSpots) {
+        spot.style.backgroundColor = "#8dae6e";
+    }
 }
 
 function dragEnd() {
@@ -30,17 +33,9 @@ function dragEnd() {
     this.parentElement.style.opacity = "1";
     this.parentElement.style.backgroundColor = "transparent";
     let checkedTws = document.querySelectorAll('[data-check="check"]');
-    let observer = false;
-    for (let i = 0; i < checkedTws.length; ++i) {
-        if (checkedTws[i].firstChild !== null) {
-            observer = true;
-        }
-    }
-    if (observer === false) {
-        for (let i = 0; i < towerSpots.length; ++i) {
-            towerSpots[i].style.opacity = "1";
-            towerSpots[i].style.backgroundColor = "transparent";
-        }
+    let twSpots = document.querySelectorAll(".tower-spot");
+    for (let spot of twSpots) {
+        spot.style.backgroundColor = "transparent";
     }
 }
 
@@ -64,6 +59,7 @@ function dragDrop() {
         minusGold(100);
         this.firstChild.dataset.level = "1";
         this.firstChild.addEventListener("dblclick", towerUpgradeModal);
+        this.className = "tower-spot";
     } else {
         this.className = "tower-spot";
     }
