@@ -78,7 +78,7 @@ async function steps(i) {
                     break;
         }else {
             let cell = document.querySelector('[data-coordinate-x="' + coordinate[X] + '"][data-coordinate-y="' + coordinate[Y] + '"]');
-            if (wave === 5) {
+            if (wave === 5 || wave === 6) {
                 mob.style.backgroundImage = "url('static/images/boss.png')";
                 cell.appendChild(mob);
                 await sleep(750);
@@ -119,6 +119,8 @@ function spawn(wave){
         case 5:
             enemy = new Enemy(wave, 1250, 10, 1200, 40);
             break;
+        case 6:
+            enemy = new Enemy(wave, 1250, 15, 1400, 40);
     }
 }
 
@@ -246,7 +248,7 @@ function rangeCheck(towerX, towerY, towers) {
 
 async function dmgEffect(id) {
     let target = document.getElementById(id.toString());
-    if (wave === 5) {
+    if (wave === 5 || wave === 6) {
         target.style.backgroundImage = "url('static/images/boss_dmg.png')";
         await sleep(500);
         target.style.backgroundImage = "url('static/images/boss.png')";
@@ -258,7 +260,26 @@ async function dmgEffect(id) {
 }
 
 async function dmgEffectTw(tower) {
-    tower.firstChild.firstChild.style.backgroundImage = "url('static/images/custom_tw_dmg.png')";
+    console.log(tower.firstChild.firstChild.dataset.level);
+    let twFx;
+    switch (tower.firstChild.firstChild.dataset.level) {
+        case "1":
+            twFx = "url('static/images/custom_tw_dmg.png')";
+            break;
+        case "2":
+            twFx = "url('static/images/custom_tw_dmg2.png')";
+            break;
+        case "3":
+            twFx = "url('static/images/custom_tw_dmg3.png')";
+            break;
+        case "4":
+            twFx = "url('static/images/custom_tw_dmg4.png')";
+            break;
+        case "5":
+            twFx = "url('static/images/custom_tw_dmg5.png')";
+            break;
+    }
+    tower.firstChild.firstChild.style.backgroundImage = twFx;
     await sleep(500);
     tower.firstChild.firstChild.style.backgroundImage = "url('static/images/custom_tw.png')";
 }
@@ -272,7 +293,7 @@ function setTowerBaseLevel() {
 
 
 function win(){
-    let mainBoard = document.getElementById("main-board")
+    let mainBoard = document.getElementById("main-board");
         mainBoard.innerHTML = "YOU WON!";
         mainBoard.style.textAlign = "center";
         mainBoard.style.fontSize = "200px";
