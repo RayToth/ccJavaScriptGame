@@ -14,6 +14,14 @@ body {
     text-align: center;
 }
 
+.container a {
+    font-family: Cipote;
+    font-size: 90px;
+    text-shadow: 5px 10px black;
+    color: royalblue;
+    text-decoration: none;
+}
+
 .instructions {
     margin: auto;
     background-color: #f4f4f4;
