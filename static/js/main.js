@@ -5,7 +5,7 @@ const Y = 1;
 let enemy;
 let playerHp = 3;
 let tower;
-let playerGold = 150;
+let playerGold = 1250;
 let wave = 1;
 
 function setStartGoldNlifePos() {
@@ -137,8 +137,8 @@ function makeShopSpots() {
 
 async function checkMobsUnderTw() {
     spawn(wave);
-    sessionStorage.clear();
     for (let i = 0; i < enemy.quantity; i++) {
+        sessionStorage.removeItem(""+ i + "");
         sessionStorage.setItem(""+ i +"", ""+ enemy.health +"")
     }
     mobs();
@@ -155,17 +155,17 @@ async function checkMobsUnderTw() {
                 break;
             }
         } else {
-            for (let tower of activeTws) {
-                let x = parseInt(tower.parentElement.parentElement.dataset.coordinateX, 10);
-                let y = parseInt(tower.parentElement.parentElement.dataset.coordinateY, 10);
-                rangeCheck(x, y);
+            for (let towers of activeTws) {
+                let x = parseInt(towers.parentElement.parentElement.dataset.coordinateX, 10);
+                let y = parseInt(towers.parentElement.parentElement.dataset.coordinateY, 10);
+                rangeCheck(x, y, towers);
             }
         }
     }
 }
 
 
-function rangeCheck(towerX, towerY) {
+function rangeCheck(towerX, towerY, towers) {
     let rangeCoordinates = [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]];
     let mobIds = [];
     for (let position of rangeCoordinates) {
@@ -179,7 +179,10 @@ function rangeCheck(towerX, towerY) {
     }
     if (mobIds.length > 0) {
         let lowestMobId = Math.min.apply(Math, mobIds);
-        sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-50) + "");
+        let level = parseInt(sessionStorage.getItem(""+towers.className+""), 10);
+        towerGrade(level);
+        let mobDamage = tower.damage;
+        sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-mobDamage) + "");
         dmgEffect(lowestMobId);
     }
 }
@@ -194,10 +197,17 @@ async function dmgEffect(id) {
     target.style.opacity = "1";
 }
 
+function setTowerBaseLevel() {
+    sessionStorage.clear();
+    for (let i = 0; i < 5; i++) {
+        sessionStorage.setItem("shop-tower"+ i + "", "1");
+    }
+}
 function main () {
     let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
     firstId.addEventListener("click", checkMobsUnderTw);
     firstId.addEventListener("click", playSoundNremoveListeners);
+    setTowerBaseLevel();
     makeTowerSpots();
     makeShopSpots();
     setStartGoldNlifePos();

@@ -1,7 +1,7 @@
 let draggableObject;
 let clickTarget;
 const towerSpots = document.querySelectorAll(".tower-spot");
-let level = 1;
+let towerCount = 1;
 
 for (let i = 0; i < 5; ++i) {
     let tower = document.querySelector(".shop-tower" + i);
@@ -21,7 +21,7 @@ function dragStart() {
     clickTarget = this.className;
     draggableObject = document.querySelector("." + clickTarget);
     this.className += " hold";
-    setTimeout(() => (this.className = "invisible"), 0);
+    // setTimeout(() => (this.className = "invisible"), 0);
 }
 
 function dragEnd() {
@@ -62,7 +62,7 @@ function dragDrop() {
         this.appendChild(draggableObject);
         this.firstChild.setAttribute("id", "fix-towers");
         minusGold(100);
-        this.firstChild.dataset.level = "1";
+        // this.firstChild.dataset.level = sessionStorage.getItem(""+ this.firstChild.classList[0] + "");
         this.firstChild.addEventListener("dblclick", towerUpgradeModal);
     } else {
         this.className = "tower-spot";
@@ -70,26 +70,41 @@ function dragDrop() {
 }
 
 
-function towerUpgradeModal() {
-    towerGrade(level);
-    let towerLevel = tower.level;
-    let damage = tower.damage;
-    let range = 1;
-    towerGrade(level+1);
-    let nextLevel = tower.level;
-    let nextDamage = tower.damage;
-    let nextRange = 1;
-    let upgradeCost = tower.cost;
-    let modalToFill = document.querySelector("#exampleModal");
-    console.log(modalToFill);
-    modalToFill.querySelector("#tower-level").innerHTML =  `Tower level = ${towerLevel}`;
-    modalToFill.querySelector("#tower-damage").innerHTML = `Damage =      ${damage}`;
-    modalToFill.querySelector("#tower-range").innerHTML =   `Range =       ${range}`;
-    modalToFill.querySelector("#uTower-level").innerHTML =  `Next level =  ${nextLevel}`;
-    modalToFill.querySelector("#uTower-damage").innerHTML = `New damage =  ${nextDamage}`;
-    modalToFill.querySelector("#uTower-range").innerHTML =  `New range =   ${nextRange}`;
-    modalToFill.querySelector("#upgrade-cost").innerHTML =  `Upgrade cost =${upgradeCost}`;
-    $(modalToFill).modal("show");
+function towerUpgradeModal(spot) {
+    let currentTower = spot.path[0].className;
+    let level = parseInt(sessionStorage.getItem(""+currentTower+""), 10);
+    if (level <  5) {
+        towerGrade(level);
+        let towerLevel = tower.level;
+        let damage = tower.damage;
+        let range = 1;
+        towerGrade(level + 1);
+        let nextLevel = tower.level;
+        let nextDamage = tower.damage;
+        let nextRange = 1;
+        let upgradeCost = tower.cost;
+        let modalToFill = document.querySelector("#exampleModal");
+        modalToFill.querySelector("#tower-level").innerHTML = `Tower level = ${towerLevel}`;
+        modalToFill.querySelector("#tower-damage").innerHTML = `Damage =      ${damage}`;
+        modalToFill.querySelector("#tower-range").innerHTML = `Range =       ${range}`;
+        modalToFill.querySelector("#uTower-level").innerHTML = `Next level =  ${nextLevel}`;
+        modalToFill.querySelector("#uTower-damage").innerHTML = `New damage =  ${nextDamage}`;
+        modalToFill.querySelector("#uTower-range").innerHTML = `New range =   ${nextRange}`;
+        modalToFill.querySelector("#upgrade-cost").innerHTML = `Upgrade cost =${upgradeCost}`;
+        $(modalToFill).modal("show");
 
+        document.getElementById("upgrade-button").addEventListener("click", setMoney);
 
+        function setMoney() {
+            if (playerGold >= upgradeCost) {
+                sessionStorage.setItem("" + currentTower + "", "" + nextLevel + "");
+                minusGold(upgradeCost);
+                document.getElementById("upgrade-button").removeEventListener("click", setMoney)
+            } else {
+                alert("No money bitch!");
+            }
+        }
+    } else {
+        alert("Tower level Maxxed!")
+    }
 }
