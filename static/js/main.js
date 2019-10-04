@@ -5,7 +5,7 @@ const Y = 1;
 let enemy;
 let playerHp = 3;
 let tower;
-let playerGold = 1150;
+let playerGold = 150;
 let wave = 1;
 
 function setStartGoldNlifePos() {
@@ -15,6 +15,10 @@ function setStartGoldNlifePos() {
     document.querySelector("[data-coordinate-x='13'][data-coordinate-y='1']").setAttribute("id", "life-pic");
     document.querySelector("[data-coordinate-x='14'][data-coordinate-y='1']").setAttribute("id", "life-value");
     document.querySelector("#life-value").innerText = playerHp;
+    document.querySelector("[data-coordinate-x='1'][data-coordinate-y='8']").setAttribute("id", "basic-tower-name");
+    document.querySelector("[data-coordinate-x='2'][data-coordinate-y='8']").setAttribute("id", "basic-tower-cost");
+    document.querySelector("#basic-tower-name").innerText = "Cost:";
+    document.querySelector("#basic-tower-cost").innerText = "100";
 }
 
 function plusGold(quantity) {
@@ -33,11 +37,23 @@ function playSoundNremoveListeners() {
     this.removeEventListener("click", playSoundNremoveListeners);
     this.removeEventListener("click", checkMobsUnderTw);
     this.removeEventListener("click", waves);
+    this.style.backgroundImage = "none";
+    this.style.cursor = "default";
 }
 
 function playDmgSound() {
     const dmgSound = new Audio("static/sounds/dmg3.mp3");
     dmgSound.play();
+}
+
+function playDeathSound() {
+    const deathSound = new Audio("static/sounds/death.mp3");
+    deathSound.play();
+}
+
+function playCoinSound() {
+    const coinSound = new Audio("static/sounds/coin.mp3");
+    coinSound.play();
 }
 
 async function mobs() {
@@ -55,15 +71,24 @@ async function steps(i) {
         mob.setAttribute("data-hp", "" +sessionStorage.getItem(""+ i +"")+ "");
         let mobHp = parseInt(mob.dataset.hp, 10);
         if(mobHp <= 0) {
+            playDeathSound();
             plusGold(enemy.bounty);
             break;
         } else if (playerHp < 1){
                     break;
         }else {
             let cell = document.querySelector('[data-coordinate-x="' + coordinate[X] + '"][data-coordinate-y="' + coordinate[Y] + '"]');
-            cell.appendChild(mob);
-            await sleep(750);
-            cell.removeChild(mob);
+            if (wave === 5 || wave === 6) {
+                mob.style.backgroundImage = "url('static/images/boss.png')";
+                cell.appendChild(mob);
+                await sleep(750);
+                cell.removeChild(mob);
+            } else {
+                mob.style.backgroundImage = "url('static/images/mob.png')";
+                cell.appendChild(mob);
+                await sleep(750);
+                cell.removeChild(mob);
+            }
             if  (coordinate[0] === 14) {
                 --playerHp;
                 document.querySelector("#life-value").innerText = playerHp;
@@ -83,17 +108,19 @@ function spawn(wave){
             enemy = new Enemy(wave, 1250, 5, 100, 10);
             break;
         case 2:
-            enemy = new Enemy(wave, 1250, 10, 150, 20);
+            enemy = new Enemy(wave, 1250, 10, 200, 30);
             break;
         case 3:
-            enemy = new Enemy(wave, 1250, 15, 200, 30);
+            enemy = new Enemy(wave, 1250, 25, 400, 35);
             break;
         case 4:
-            enemy = new Enemy(wave, 1250, 20, 250, 40);
+            enemy = new Enemy(wave, 1250, 15, 600, 40);
             break;
         case 5:
-            enemy = new Enemy(wave, 1250, 25, 300, 50);
+            enemy = new Enemy(wave, 1250, 10, 1200, 40);
             break;
+        case 6:
+            enemy = new Enemy(wave, 1250, 15, 1400, 40);
     }
 }
 
@@ -122,7 +149,7 @@ function makeTowerSpots() {
         [1, 1], [1, 3], [1, 4], [1, 6], [2, 1], [2, 6], [3, 1], [3, 5], [3, 6], [3, 3], [3, 4], [4, 1], [4, 3], [4, 4],
         [4, 5], [4, 6], [4, 7], [5, 1], [5, 7], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [6, 7], [7, 5], [7, 7], [8, 3],
         [8, 4], [8, 5], [8, 7], [9, 7], [10, 3], [10, 5], [10, 6], [10, 7], [11, 3], [11, 5], [12, 3], [12, 5], [13, 3],
-        [13, 5], [14, 3], [14, 5]
+        [13, 5]
         ];
     for (let list of towerSpots) {
         let spot = document.querySelector('[data-coordinate-x="' + list[0] + '"][data-coordinate-y="' + list[1] + '"]');
@@ -167,11 +194,11 @@ async function checkMobsUnderTw() {
         let activeTws = document.querySelectorAll("#fix-towers");
         let mobExists = document.querySelector(".mob");
         if (mobExists === null) {
-            if (wave < 5 || playerHp > 0) {
+            if (wave < 6 ){
                     ++wave;
                     await checkMobsUnderTw();
                 } else {
-                    break;
+                    win();
                 }
             } else {
                 for (let towers of activeTws) {
@@ -182,7 +209,7 @@ async function checkMobsUnderTw() {
             }
         }
     } else {
-        let mainBoard = document.getElementById("main-board")
+        let mainBoard = document.getElementById("main-board");
         mainBoard.innerHTML = "Game Over";
         mainBoard.style.textAlign = "center";
         mainBoard.style.fontSize = "200px";
@@ -231,13 +258,38 @@ function rangeCheck(towerX, towerY, towers) {
 
 async function dmgEffect(id) {
     let target = document.getElementById(id.toString());
-    target.style.backgroundImage = "url('static/images/mob_dmg.png')";
-    await sleep(500);
-    target.style.backgroundImage = "url('static/images/mob.png')";
+    if (wave === 5 || wave === 6) {
+        target.style.backgroundImage = "url('static/images/boss_dmg.png')";
+        await sleep(500);
+        target.style.backgroundImage = "url('static/images/boss.png')";
+    } else {
+        target.style.backgroundImage = "url('static/images/mob_dmg.png')";
+        await sleep(500);
+        target.style.backgroundImage = "url('static/images/mob.png')";
+    }
 }
 
 async function dmgEffectTw(tower) {
-    tower.firstChild.firstChild.style.backgroundImage = "url('static/images/custom_tw_dmg.png')";
+    console.log(tower.firstChild.firstChild.dataset.level);
+    let twFx;
+    switch (tower.firstChild.firstChild.dataset.level) {
+        case "1":
+            twFx = "url('static/images/custom_tw_dmg.png')";
+            break;
+        case "2":
+            twFx = "url('static/images/custom_tw_dmg2.png')";
+            break;
+        case "3":
+            twFx = "url('static/images/custom_tw_dmg3.png')";
+            break;
+        case "4":
+            twFx = "url('static/images/custom_tw_dmg4.png')";
+            break;
+        case "5":
+            twFx = "url('static/images/custom_tw_dmg5.png')";
+            break;
+    }
+    tower.firstChild.firstChild.style.backgroundImage = twFx;
     await sleep(500);
     tower.firstChild.firstChild.style.backgroundImage = "url('static/images/custom_tw.png')";
 }
@@ -248,8 +300,23 @@ function setTowerBaseLevel() {
         sessionStorage.setItem("shop-tower"+ i + "", "1");
     }
 }
+
+
+function win(){
+    let mainBoard = document.getElementById("main-board");
+        mainBoard.innerHTML = "YOU WON!";
+        mainBoard.style.textAlign = "center";
+        mainBoard.style.fontSize = "200px";
+        mainBoard.style.paddingTop = "200px";
+        mainBoard.style.fontFamily = "Cipote";
+        mainBoard.style.color = "white";
+        mainBoard.style.textShadow = "5px 10px black";
+}
+
+
 function main () {
-    let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="0"]');
+    let firstId = document.querySelector('[data-coordinate-x="0"][data-coordinate-y="5"]');
+    firstId.setAttribute("class", "start-btn");
     firstId.addEventListener("click", waves);
     firstId.addEventListener("click", checkMobsUnderTw);
     firstId.addEventListener("click", playSoundNremoveListeners);
