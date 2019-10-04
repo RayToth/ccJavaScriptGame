@@ -72,11 +72,11 @@ function towerUpgradeModal(spot) {
         towerGrade(level);
         let towerLevel = tower.level;
         let damage = tower.damage;
-        let range = 1;
+        let range = tower.range;
         towerGrade(level + 1);
         let nextLevel = tower.level;
         let nextDamage = tower.damage;
-        let nextRange = 1;
+        let nextRange = tower.range;
         let upgradeCost = tower.cost;
         let modalToFill = document.querySelector("#exampleModal");
         modalToFill.querySelector("#tower-level").innerHTML = `Tower level = ${towerLevel}`;

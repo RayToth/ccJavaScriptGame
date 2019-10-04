@@ -18,7 +18,7 @@ function setStartGoldNlifePos() {
 }
 
 function plusGold(quantity) {
-    playerGold += quantity;
+    playerGold += quantity;``
     document.querySelector("#gold-value").innerText = playerGold;
 }
 
@@ -100,19 +100,19 @@ function spawn(wave){
 function towerGrade(level) {
     switch (level) {
         case 1:
-            tower = new Tower(level, 50, 100);
+            tower = new Tower(level, 50, 1, 100);
             break;
         case 2:
-            tower = new Tower(level, 100, 110);
+            tower = new Tower(level, 100, 1, 110);
             break;
         case 3:
-            tower = new Tower(level, 150, 120);
+            tower = new Tower(level, 150, 1, 120);
             break;
         case 4:
-            tower = new Tower(level, 200, 130);
+            tower = new Tower(level, 200, 2, 130);
             break;
         case 5:
-            tower = new Tower(level, 250, 140);
+            tower = new Tower(level, 250, 2, 140);
     }
 }
 
@@ -195,9 +195,20 @@ async function checkMobsUnderTw() {
 
 
 function rangeCheck(towerX, towerY, towers) {
-    let rangeCoordinates = [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]];
+    let level = parseInt(sessionStorage.getItem(""+towers.className+""), 10);
+    towerGrade(level);
+    let rangeCoordinates1 = [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]];
+    let rangeCoordinates2 = [ ...rangeCoordinates1, [2, 1], [2, 0], [2, -1], [1, -2], [0, -2], [-1, -2],
+                            [-2, -1], [-2, 0], [-2, 1], [-1, 2], [0, 2], [1, 2]];
     let mobIds = [];
-    for (let position of rangeCoordinates) {
+    console.log(towers);
+    let rangeToCheck;
+    if (tower.range === 1) {
+        rangeToCheck = rangeCoordinates1
+    }else {
+        rangeToCheck = rangeCoordinates2
+    }
+    for (let position of rangeToCheck) {
         let currentX = towerX + position[X];
         let currentY = towerY + position[Y];
         let cellTocheck = document.querySelector('[data-coordinate-x="' + currentX + '"][data-coordinate-y="' + currentY + '"]');
@@ -209,8 +220,7 @@ function rangeCheck(towerX, towerY, towers) {
     if (mobIds.length > 0) {
         let targetTw = document.querySelector('[data-coordinate-x="' + towerX + '"][data-coordinate-y="' + towerY + '"]');
         let lowestMobId = Math.min.apply(Math, mobIds);
-        let level = parseInt(sessionStorage.getItem(""+towers.className+""), 10);
-        towerGrade(level);
+        // towerGrade(level);
         let mobDamage = tower.damage;
         sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-mobDamage) + "");
         playDmgSound();
