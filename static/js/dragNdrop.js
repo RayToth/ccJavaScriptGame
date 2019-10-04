@@ -92,12 +92,12 @@ function towerUpgradeModal(spot) {
         document.getElementById("upgrade-button").addEventListener("click", setMoney);
 
         function setMoney() {
+            document.getElementById("upgrade-button").removeEventListener("click", setMoney)
             if (playerGold >= upgradeCost) {
                 sessionStorage.setItem("" + currentTower + "", "" + nextLevel + "");
                 document.querySelector("."+currentTower+"").setAttribute("data-level", ""+nextLevel+"");
                 playCoinSound();
                 minusGold(upgradeCost);
-                document.getElementById("upgrade-button").removeEventListener("click", setMoney)
             } else {
                 alert("Not enough money!");
             }

@@ -228,7 +228,6 @@ function rangeCheck(towerX, towerY, towers) {
     let rangeCoordinates2 = [ ...rangeCoordinates1, [2, 1], [2, 0], [2, -1], [1, -2], [0, -2], [-1, -2],
                             [-2, -1], [-2, 0], [-2, 1], [-1, 2], [0, 2], [1, 2]];
     let mobIds = [];
-    console.log(towers);
     let rangeToCheck;
     if (tower.range === 1) {
         rangeToCheck = rangeCoordinates1
@@ -247,7 +246,6 @@ function rangeCheck(towerX, towerY, towers) {
     if (mobIds.length > 0) {
         let targetTw = document.querySelector('[data-coordinate-x="' + towerX + '"][data-coordinate-y="' + towerY + '"]');
         let lowestMobId = Math.min.apply(Math, mobIds);
-        // towerGrade(level);
         let mobDamage = tower.damage;
         sessionStorage.setItem(""+lowestMobId+"", ""+ (parseInt(sessionStorage.getItem("" + lowestMobId + ""), 10)-mobDamage) + "");
         playDmgSound();
@@ -270,7 +268,6 @@ async function dmgEffect(id) {
 }
 
 async function dmgEffectTw(tower) {
-    console.log(tower.firstChild.firstChild.dataset.level);
     let twFx;
     switch (tower.firstChild.firstChild.dataset.level) {
         case "1":
