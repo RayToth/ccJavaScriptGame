@@ -27,7 +27,7 @@ as it is not a simple, always win game.
 - Money system(defeat enemy to gain, buy or upgrade towers)
 - Sound effects
 - Towers graphics changing on upgrade
-- Visible life counter of enemies
+- Enemies with visible remaining life
 
 ## Technologies Used
 
