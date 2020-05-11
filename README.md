@@ -38,6 +38,7 @@ as it is not a simple, always win game.
 
 ![Instructions](/demo/main.png)
 ![Game demo](/demo/tdgame1.gif)
+![Game tower upgrade](/demo/tower_upgrade.png)
 ![Game demo2](/demo/tdgame2.gif)
 
 
